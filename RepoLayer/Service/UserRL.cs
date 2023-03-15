@@ -173,5 +173,50 @@ namespace RepoLayer.Service
                 }
             }
         }
+
+        public bool ResetPassword(ResetPassword resetPassword, string email)
+        {
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            try
+            {
+                if (resetPassword.Password == resetPassword.Confirm_Passwords)
+                {
+                    SqlCommand cmd = new SqlCommand("spResetPassword", sqlConnection);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Password", resetPassword.Password);
+
+                    sqlConnection.Open();
+                    int result = cmd.ExecuteNonQuery();
+
+                    if (result >= 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
     }
 }

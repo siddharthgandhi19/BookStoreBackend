@@ -1,8 +1,10 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using System.Security.Claims;
 
 namespace BookStoreBackend.Controllers
 {
@@ -77,6 +79,32 @@ namespace BookStoreBackend.Controllers
                 else
                 {
                     return this.BadRequest(new { success = false, message = "Try Again" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        [Authorize]
+        [HttpPut]
+        [Route("ResetPassword")]
+        public IActionResult ResetPassword(ResetPassword resetPassword)
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                var result = iUserBL.ResetPassword(resetPassword,email);
+                if (result)
+                {
+                    return this.Ok(new { success = true, message = "Password Reset Successfully", data = result });
+                }
+                else
+                {
+                    return this.NotFound(new { success = false, message = "Password Not Reset Try Again" });
                 }
             }
             catch (System.Exception)
