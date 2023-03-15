@@ -38,5 +38,27 @@ namespace BookStoreBackend.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        [Route("UserLogin")]
+        public IActionResult Login(UserLogin userLogin)
+        {
+            try
+            {
+                var result = iUserBL.Login(userLogin);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Login Successfull", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Login UnSuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }
