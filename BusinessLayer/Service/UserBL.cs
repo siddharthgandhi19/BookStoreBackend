@@ -40,5 +40,18 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        public string ForgetLoginPassword(ForgetPassword forgetPassword)
+        {
+            try
+            {
+                return iUserRL.ForgetLoginPassword(forgetPassword);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

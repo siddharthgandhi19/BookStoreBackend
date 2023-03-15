@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models;
+﻿using CommonLayer.ModelClass;
+using CommonLayer.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RepoLayer.Interface;
@@ -88,7 +89,7 @@ namespace RepoLayer.Service
                         loginCredentials.UserId = Convert.ToInt32(rdr["UserId"]);
                         loginCredentials.Email = rdr["Email"].ToString();
 
-                        if(loginCredentials.Email != null)
+                        if (loginCredentials.Email != null)
                         {
                             sqlConnection.Close();
                             return GenerateSecurityToken(loginCredentials.Email, loginCredentials.UserId);
@@ -123,6 +124,54 @@ namespace RepoLayer.Service
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+
+        public string ForgetLoginPassword(ForgetPassword forgetPassword)
+        {
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            try
+            {
+                using (sqlConnection)
+                {
+                    SqlCommand cmd = new SqlCommand("spForgotPassword", sqlConnection);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Email", forgetPassword.Email);
+                    sqlConnection.Open();
+
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        LoginCredentials loginCredentials = new LoginCredentials();
+                        loginCredentials.UserId = Convert.ToInt32(rdr["UserId"]);
+                        loginCredentials.Email = rdr["Email"].ToString();
+
+                        if (loginCredentials.Email != null)
+                        {
+                            sqlConnection.Close();
+                            MSMQModel mSMQModel = new MSMQModel();
+                            string token = GenerateSecurityToken(loginCredentials.Email, loginCredentials.UserId);
+                            mSMQModel.sendData2Queue(token);
+                            return token;
+                        }
+                    }
+                    sqlConnection.Close();
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
         }
     }
 }

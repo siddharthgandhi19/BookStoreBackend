@@ -9,5 +9,6 @@ namespace RepoLayer.Interface
     {
         public UserRegistration UserRegistration(UserRegistration userRegistration);
         public string Login(UserLogin userLogin);
+        public string ForgetLoginPassword(ForgetPassword forgetPassword);
     }
 }

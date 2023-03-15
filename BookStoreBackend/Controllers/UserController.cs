@@ -60,5 +60,31 @@ namespace BookStoreBackend.Controllers
                 throw;
             }
         }
+
+
+        [HttpPost]
+        [Route("ForgotPassword")]
+
+        public IActionResult ForgetLoginPassword(ForgetPassword forgetPassword)
+        {
+            try
+            {
+                var result = iUserBL.ForgetLoginPassword(forgetPassword);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Mail Send Successfull", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Try Again" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }
