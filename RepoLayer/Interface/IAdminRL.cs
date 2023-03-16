@@ -1,4 +1,4 @@
-﻿using CommonLayer.Models;
+﻿using CommonLayer.Models.Admin;
 using System;
 using System.Collections.Generic;
 using System.Text;

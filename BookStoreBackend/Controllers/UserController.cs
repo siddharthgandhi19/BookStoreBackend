@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Interface;
-using CommonLayer.Models;
+using CommonLayer.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

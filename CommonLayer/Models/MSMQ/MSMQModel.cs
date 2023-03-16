@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 
-namespace CommonLayer.ModelClass
+namespace CommonLayer.Models.MSMQ
 {
     public class MSMQModel
     {

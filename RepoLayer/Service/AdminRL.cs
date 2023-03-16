@@ -1,4 +1,4 @@
-﻿using CommonLayer.Models;
+﻿using CommonLayer.Models.Admin;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RepoLayer.Interface;

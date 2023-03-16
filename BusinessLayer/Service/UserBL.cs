@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Interface;
-using CommonLayer.Models;
+using CommonLayer.Models.User;
 using RepoLayer.Interface;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
-﻿using CommonLayer.ModelClass;
-using CommonLayer.Models;
+﻿using CommonLayer.Models.MSMQ;
+using CommonLayer.Models.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RepoLayer.Interface;

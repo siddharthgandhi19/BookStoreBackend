@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Interface;
-using CommonLayer.Models;
+using CommonLayer.Models.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepoLayer.Interface;

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
-using CommonLayer.Models.Admin;
+using CommonLayer.Models.Book;
+using CommonLayer.Models.User;
 using RepoLayer.Interface;
 using RepoLayer.Service;
 using System;
@@ -8,20 +9,19 @@ using System.Text;
 
 namespace BusinessLayer.Service
 {
-    public class AdminBL : IAdminBL
+    public class BookBL : IBookBL
     {
-        IAdminRL iAdminRL;
-        public AdminBL(IAdminRL iAdminRL) 
+        IBookRL iBookRL;
+        public BookBL(IBookRL iBookRL)
         {
-            this.iAdminRL = iAdminRL;
-
+            this.iBookRL = iBookRL;
         }
 
-        public string AdminLogin(AdminLogin adminLogin)
+        public BookModel AddBook(BookModel bookModel)
         {
             try
             {
-                return iAdminRL.AdminLogin(adminLogin);
+                return iBookRL.AddBook(bookModel);
             }
             catch (Exception)
             {

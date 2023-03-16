@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonLayer.Models
+namespace CommonLayer.Models.User
 {
     public class UserLogin
     {

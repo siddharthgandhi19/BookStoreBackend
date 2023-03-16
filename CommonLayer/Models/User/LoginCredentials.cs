@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonLayer.Models
+namespace CommonLayer.Models.User
 {
     public class LoginCredentials
     {
-        public int UserId { get; set;}
-        public string Email { get; set;}
+        public int UserId { get; set; }
+        public string Email { get; set; }
     }
 }
