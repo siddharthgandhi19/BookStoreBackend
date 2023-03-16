@@ -11,5 +11,6 @@ namespace RepoLayer.Interface
         public bool DeleteBook(int bookId);
         public BookModel UpdateBook(BookModel bookModel, int bookId);
         public List<BookModel> GetAllBooks();
+        public object GetBooksById(int bookId);
     }
 }

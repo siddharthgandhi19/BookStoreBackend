@@ -100,8 +100,8 @@ namespace RepoLayer.Service
                 using (sqlConnection)
                 {
                     SqlCommand cmd = new SqlCommand("spUpdateBook", sqlConnection);
-                    cmd.CommandType= CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@BookId", bookId);                    
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookId", bookId);
                     cmd.Parameters.AddWithValue("@BookName", bookModel.BookName);
                     cmd.Parameters.AddWithValue("@AuthorName", bookModel.AuthorName);
                     cmd.Parameters.AddWithValue("@Rating", bookModel.Rating);
@@ -162,6 +162,51 @@ namespace RepoLayer.Service
                 }
                 sqlConnection.Close();
                 return getBookList;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public object GetBooksById(int bookId)
+        {
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            try
+            {
+                using (sqlConnection)
+                {
+                    SqlCommand cmd = new SqlCommand("spGetBookById", sqlConnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookId", bookId);
+                    sqlConnection.Open();
+                    BookModel bookModel = new BookModel();
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
+                            bookModel.BookName = sqlDataReader["BookId"].ToString();
+                            bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
+                            bookModel.Rating = sqlDataReader["Rating"].ToString();
+                            bookModel.TotalCountRating = Convert.ToInt32(sqlDataReader["TotalCountRating"]);
+                            bookModel.DiscountPrice = Convert.ToInt32(sqlDataReader["DiscountPrice"]);
+                            bookModel.OriginalPrice = Convert.ToInt32(sqlDataReader["OriginalPrice"]);
+                            bookModel.Description = sqlDataReader["Description"].ToString();
+                            bookModel.BookImage = sqlDataReader["BookImage"].ToString();
+                            bookModel.BookCount = Convert.ToInt32(sqlDataReader["BookCount"]);
+                        }
+                        sqlConnection.Close();
+                        return bookModel;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
             }
             catch (Exception)
             {

@@ -11,5 +11,6 @@ namespace BusinessLayer.Interface
         public bool DeleteBook(int bookId);
         public BookModel UpdateBook(BookModel bookModel, int BookId);
         public List<BookModel> GetAllBooks();
+        public object GetBooksById(int bookId);
     }
 }

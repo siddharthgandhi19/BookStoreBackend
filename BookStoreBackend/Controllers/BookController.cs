@@ -113,6 +113,30 @@ namespace BookStoreBackend.Controllers
                 throw;
             }
         }
-       
+
+        [HttpGet]
+        [Route("getAllBookById")]
+        public IActionResult GetBooksById(int bookId)
+        {
+            try
+            {
+                var result = iBookBL.GetBooksById(bookId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Retrieve All Books", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Try Again!! Something Wrong" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+
     }
 }
