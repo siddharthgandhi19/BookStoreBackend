@@ -1,10 +1,13 @@
-﻿using CommonLayer.Models.Book;
+﻿using CloudinaryDotNet;
+using CommonLayer.Models.Book;
 using CommonLayer.Models.User;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using RepoLayer.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Net;
 using System.Text;
@@ -14,9 +17,14 @@ namespace RepoLayer.Service
     public class BookRL : IBookRL
     {
         string connectionString;
+        IConfiguration configuration;
+        //private readonly string CloudName;
+        //private readonly string ApiKey;
+        //private readonly string ApiSecret;
         public BookRL(IConfiguration configuration)
         {
             connectionString = configuration.GetConnectionString("BookStoreDB"); //connect with db
+            this.configuration = configuration;
         }
 
         public BookModel AddBook(BookModel bookModel)
@@ -211,6 +219,53 @@ namespace RepoLayer.Service
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+
+        public string ImageUploadOnCloudinary(IFormFile imageFile, int bookId)
+        {            
+            try
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("spGetBookById", sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@BookId", bookId);
+                sqlConnection.Open();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result != null)
+                {
+                    Account account = new Account(
+                        this.configuration["CloudinarySettings:CloudName"],
+                       this.configuration["CloudinarySettings:ApiKey"],
+                        this.configuration["CloudinarySettings:ApiSecret"]
+                        );
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+                    {
+                        File = new FileDescription(imageFile.FileName, imageFile.OpenReadStream()),
+
+                    };
+
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    string imagePath = uploadResult.Url.ToString();
+                    return imagePath;
+                }
+
+                if (result >= 1)
+                {
+                    return "Image Upload Successfully";
+                }
+                else
+                {
+                    return null;
+                }
+                
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

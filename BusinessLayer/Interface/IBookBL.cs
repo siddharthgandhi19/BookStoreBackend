@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models.Book;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace BusinessLayer.Interface
         public BookModel UpdateBook(BookModel bookModel, int BookId);
         public List<BookModel> GetAllBooks();
         public object GetBooksById(int bookId);
+        public string ImageUploadOnCloudinary(IFormFile imageFile, int bookId);
     }
 }

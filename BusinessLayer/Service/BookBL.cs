@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Models.Book;
 using CommonLayer.Models.User;
+using Microsoft.AspNetCore.Http;
 using RepoLayer.Interface;
 using RepoLayer.Service;
 using System;
@@ -63,6 +64,19 @@ namespace BusinessLayer.Service
             try
             {
                 return iBookRL.GetBooksById(bookId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public string ImageUploadOnCloudinary(IFormFile imageFile, int bookId)
+        {
+            try
+            {
+                return iBookRL.ImageUploadOnCloudinary(imageFile, bookId);
             }
             catch (Exception)
             {

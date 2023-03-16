@@ -137,6 +137,28 @@ namespace BookStoreBackend.Controllers
             }
         }
 
+        [Authorize(Roles = Role.Admin)]
+        [HttpPost]
+        [Route("UpdateImage")]
+        public IActionResult ImageUploadOnCloudinary(IFormFile imageFile, int bookId)
+        {
+            try
+            {
+                var result = iBookBL.ImageUploadOnCloudinary(imageFile,bookId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Image Updated", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Try Again!! Something Wrong" });
+                }
+            }
+            catch (System.Exception)
+            {
 
+                throw;
+            }
+        }
     }
 }
