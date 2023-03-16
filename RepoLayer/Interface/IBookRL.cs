@@ -8,5 +8,6 @@ namespace RepoLayer.Interface
     public interface IBookRL
     {
         public BookModel AddBook(BookModel bookModel);
+        public bool DeleteBook(int bookId);
     }
 }

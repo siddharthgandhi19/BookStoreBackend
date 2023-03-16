@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using RepoLayer.Interface;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -59,7 +60,35 @@ namespace RepoLayer.Service
 
         }
 
+        public bool DeleteBook(int bookId)
+        {
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            try
+            {
+                using (sqlConnection)
+                {
+                    SqlCommand cmd = new SqlCommand("[spDeleteBook]", sqlConnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookId", bookId);
+                    sqlConnection.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    sqlConnection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
 
-
+                throw;
+            }
+        }
+    
     }
 }

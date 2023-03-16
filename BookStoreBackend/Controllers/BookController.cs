@@ -41,5 +41,29 @@ namespace BookStoreBackend.Controllers
                 throw;
             }
         }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpPost]
+        [Route("DeleteBook")]
+        public IActionResult DeleteBook(int bookId)
+        {
+            try
+            {
+                var result = iBookBL.DeleteBook(bookId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Book Delete Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Try Again!! Something Wrong" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
