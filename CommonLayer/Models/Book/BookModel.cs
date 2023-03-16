@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace CommonLayer.Models.Book
 {
     public class BookModel
     {
+        [Key ] 
+        public int BookId { get; set; }
         public string BookName { get; set; }
         public string AuthorName { get; set; }
         public string Rating { get; set; }

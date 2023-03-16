@@ -4,6 +4,7 @@ using CommonLayer.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Data;
 
 namespace BookStoreBackend.Controllers
@@ -89,5 +90,29 @@ namespace BookStoreBackend.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        [Route("getAllBook")]
+        public IActionResult GetAllBooks()
+        {
+            try
+            {
+                var result = iBookBL.GetAllBooks();
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Retrieve All Books", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Try Again!! Something Wrong" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+       
     }
 }

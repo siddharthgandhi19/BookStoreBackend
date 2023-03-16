@@ -5,6 +5,7 @@ using RepoLayer.Interface;
 using RepoLayer.Service;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace BusinessLayer.Service
@@ -35,6 +36,20 @@ namespace BusinessLayer.Service
             try
             {
                 return iBookRL.DeleteBook(bookId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<BookModel> GetAllBooks()
+        {
+
+            try
+            {
+                return iBookRL.GetAllBooks();
             }
             catch (Exception)
             {

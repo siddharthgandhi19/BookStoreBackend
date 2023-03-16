@@ -133,5 +133,41 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+        public List<BookModel> GetAllBooks()
+        {
+            try
+            {
+                List<BookModel> getBookList = new List<BookModel>();
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("spGetAllBooks", sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                while (sqlDataReader.Read())
+                {
+                    BookModel bookModel = new BookModel();
+                    bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
+                    bookModel.BookName = sqlDataReader["BookId"].ToString();
+                    bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
+                    bookModel.Rating = sqlDataReader["Rating"].ToString();
+                    bookModel.TotalCountRating = Convert.ToInt32(sqlDataReader["TotalCountRating"]);
+                    bookModel.DiscountPrice = Convert.ToInt32(sqlDataReader["DiscountPrice"]);
+                    bookModel.OriginalPrice = Convert.ToInt32(sqlDataReader["OriginalPrice"]);
+                    bookModel.Description = sqlDataReader["Description"].ToString();
+                    bookModel.BookImage = sqlDataReader["BookImage"].ToString();
+                    bookModel.BookCount = Convert.ToInt32(sqlDataReader["BookCount"]);
+                    getBookList.Add(bookModel);
+                }
+                sqlConnection.Close();
+                return getBookList;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

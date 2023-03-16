@@ -10,5 +10,6 @@ namespace RepoLayer.Interface
         public BookModel AddBook(BookModel bookModel);
         public bool DeleteBook(int bookId);
         public BookModel UpdateBook(BookModel bookModel, int bookId);
+        public List<BookModel> GetAllBooks();
     }
 }
