@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
 using System.Text;
 
 namespace RepoLayer.Service
@@ -26,7 +27,7 @@ namespace RepoLayer.Service
             {
                 using (sqlConnection)
                 {
-                    SqlCommand cmd = new SqlCommand("[spAddNewBook]", sqlConnection);
+                    SqlCommand cmd = new SqlCommand("spAddNewBook", sqlConnection);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BookName", bookModel.BookName);
                     cmd.Parameters.AddWithValue("@AuthorName", bookModel.AuthorName);
@@ -35,7 +36,7 @@ namespace RepoLayer.Service
                     cmd.Parameters.AddWithValue("@DiscountPrice", bookModel.DiscountPrice);
                     cmd.Parameters.AddWithValue("@OriginalPrice", bookModel.OriginalPrice);
                     cmd.Parameters.AddWithValue("@Description", bookModel.Description);
-                    cmd.Parameters.AddWithValue("@BookImage", bookModel.BookCount);
+                    cmd.Parameters.AddWithValue("@BookImage", bookModel.BookImage);
                     cmd.Parameters.AddWithValue("@BookCount", bookModel.BookCount);
 
                     sqlConnection.Open();
@@ -67,7 +68,7 @@ namespace RepoLayer.Service
             {
                 using (sqlConnection)
                 {
-                    SqlCommand cmd = new SqlCommand("[spDeleteBook]", sqlConnection);
+                    SqlCommand cmd = new SqlCommand("spDeleteBook", sqlConnection);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BookId", bookId);
                     sqlConnection.Open();
@@ -89,6 +90,48 @@ namespace RepoLayer.Service
                 throw;
             }
         }
-    
+
+        public BookModel UpdateBook(BookModel bookModel, int bookId)
+        {
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+            try
+            {
+                using (sqlConnection)
+                {
+                    SqlCommand cmd = new SqlCommand("spUpdateBook", sqlConnection);
+                    cmd.CommandType= CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookId", bookId);                    
+                    cmd.Parameters.AddWithValue("@BookName", bookModel.BookName);
+                    cmd.Parameters.AddWithValue("@AuthorName", bookModel.AuthorName);
+                    cmd.Parameters.AddWithValue("@Rating", bookModel.Rating);
+                    cmd.Parameters.AddWithValue("@TotalCountRating", bookModel.TotalCountRating);
+                    cmd.Parameters.AddWithValue("@DiscountPrice", bookModel.DiscountPrice);
+                    cmd.Parameters.AddWithValue("@OriginalPrice", bookModel.OriginalPrice);
+                    cmd.Parameters.AddWithValue("@Description", bookModel.Description);
+                    cmd.Parameters.AddWithValue("@BookImage", bookModel.BookImage);
+                    cmd.Parameters.AddWithValue("@BookCount", bookModel.BookCount);
+
+                    sqlConnection.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    sqlConnection.Close();
+
+                    if (result != 0)
+                    {
+                        return bookModel;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
