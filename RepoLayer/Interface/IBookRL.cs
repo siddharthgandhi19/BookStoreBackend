@@ -13,6 +13,6 @@ namespace RepoLayer.Interface
         public BookModel UpdateBook(BookModel bookModel, int bookId);
         public List<BookModel> GetAllBooks();
         public object GetBooksById(int bookId);
-        public string ImageUploadOnCloudinary(IFormFile imageFile, int bookId);
+        public bool BookImageUpdate(UpdateBookModel updateBookModel);
     }
 }

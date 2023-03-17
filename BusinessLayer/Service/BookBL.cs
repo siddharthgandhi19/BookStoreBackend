@@ -72,11 +72,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public string ImageUploadOnCloudinary(IFormFile imageFile, int bookId)
+        public bool BookImageUpdate(UpdateBookModel updateBookModel)
         {
             try
             {
-                return iBookRL.ImageUploadOnCloudinary(imageFile, bookId);
+                return iBookRL.BookImageUpdate(updateBookModel);
             }
             catch (Exception)
             {

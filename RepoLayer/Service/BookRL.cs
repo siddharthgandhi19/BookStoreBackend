@@ -18,9 +18,6 @@ namespace RepoLayer.Service
     {
         string connectionString;
         IConfiguration configuration;
-        //private readonly string CloudName;
-        //private readonly string ApiKey;
-        //private readonly string ApiSecret;
         public BookRL(IConfiguration configuration)
         {
             connectionString = configuration.GetConnectionString("BookStoreDB"); //connect with db
@@ -119,12 +116,12 @@ namespace RepoLayer.Service
                     cmd.Parameters.AddWithValue("@Description", bookModel.Description);
                     cmd.Parameters.AddWithValue("@BookImage", bookModel.BookImage);
                     cmd.Parameters.AddWithValue("@BookCount", bookModel.BookCount);
-
+                              
                     sqlConnection.Open();
                     int result = cmd.ExecuteNonQuery();
                     sqlConnection.Close();
 
-                    if (result != 0)
+                    if (result >= 1)
                     {
                         return bookModel;
                     }
@@ -157,7 +154,7 @@ namespace RepoLayer.Service
                 {
                     BookModel bookModel = new BookModel();
                     bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
-                    bookModel.BookName = sqlDataReader["BookId"].ToString();
+                    bookModel.BookName = sqlDataReader["BookName"].ToString();
                     bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
                     bookModel.Rating = sqlDataReader["Rating"].ToString();
                     bookModel.TotalCountRating = Convert.ToInt32(sqlDataReader["TotalCountRating"]);
@@ -223,46 +220,57 @@ namespace RepoLayer.Service
             }
         }
 
-
-        public string ImageUploadOnCloudinary(IFormFile imageFile, int bookId)
-        {            
+        public bool BookImageUpdate(UpdateBookModel updateBookModel)
+        {
             try
             {
+                string uploadImagePath = ImageUploadOnCloudinary(updateBookModel.ImgFile);
+
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("spGetBookById", sqlConnection);
+                SqlCommand cmd = new SqlCommand("spUploadImage", sqlConnection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@BookId", bookId);
+                cmd.Parameters.AddWithValue("@BookId", updateBookModel.BookId);
+                cmd.Parameters.AddWithValue("@BookImage", uploadImagePath);
+
                 sqlConnection.Open();
                 int result = cmd.ExecuteNonQuery();
-
-                if (result != null)
+                sqlConnection.Close();
+                if (result >= 1)
                 {
-                    Account account = new Account(
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public string ImageUploadOnCloudinary(IFormFile imageFile)
+        {
+            try
+            {
+                Account account = new Account(
                         this.configuration["CloudinarySettings:CloudName"],
                        this.configuration["CloudinarySettings:ApiKey"],
                         this.configuration["CloudinarySettings:ApiSecret"]
                         );
-                    Cloudinary cloudinary = new Cloudinary(account);
-                    var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
-                    {
-                        File = new FileDescription(imageFile.FileName, imageFile.OpenReadStream()),
-
-                    };
-
-                    var uploadResult = cloudinary.Upload(uploadParams);
-                    string imagePath = uploadResult.Url.ToString();
-                    return imagePath;
-                }
-
-                if (result >= 1)
+                Cloudinary cloudinary = new Cloudinary(account);
+                var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
                 {
-                    return "Image Upload Successfully";
-                }
-                else
-                {
-                    return null;
-                }
-                
+                    File = new FileDescription(imageFile.FileName,imageFile.OpenReadStream()),
+
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                string imagePath = uploadResult.Url.ToString();
+                return imagePath;
             }
             catch (Exception)
             {

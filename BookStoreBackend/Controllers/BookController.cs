@@ -17,7 +17,7 @@ namespace BookStoreBackend.Controllers
 
         public BookController(IBookBL iBookBL)
         {
-            this.iBookBL = iBookBL; 
+            this.iBookBL = iBookBL;
         }
 
         [Authorize(Roles = Role.Admin)]
@@ -140,11 +140,13 @@ namespace BookStoreBackend.Controllers
         [Authorize(Roles = Role.Admin)]
         [HttpPost]
         [Route("UpdateImage")]
-        public IActionResult ImageUploadOnCloudinary(IFormFile imageFile, int bookId)
+
+        public IActionResult BookImageUpdate([FromForm] UpdateBookModel updateBookModel)
+
         {
             try
             {
-                var result = iBookBL.ImageUploadOnCloudinary(imageFile,bookId);
+                var result = iBookBL.BookImageUpdate(updateBookModel);
                 if (result != null)
                 {
                     return this.Ok(new { success = true, message = "Image Updated", data = result });
