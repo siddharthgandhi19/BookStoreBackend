@@ -1,0 +1,11 @@
+CREATE PROCEDURE spDeleteWishList
+(
+@WishListId INT, @UserId INT
+)
+AS
+BEGIN TRY
+DELETE FROM WishListTable WHERE WishListId = @WishListId and UserId=@UserId;
+END TRY
+BEGIN CATCH
+SELECT ERROR_MESSAGE() AS ERROR
+END CATCH
