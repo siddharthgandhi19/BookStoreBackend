@@ -1,0 +1,8 @@
+CREATE PROCEDURE spDeleteFromCart(
+	
+	@CartId INT
+)
+AS 
+BEGIN
+DELETE FROM  CART WHERE CartId =@CartId;
+END

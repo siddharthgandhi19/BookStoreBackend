@@ -1,0 +1,20 @@
+CREATE PROCEDURE spGetCartByCartId(	
+		@UserId INT,
+		@CartId INT
+)
+AS 
+BEGIN
+BEGIN TRY
+		IF EXISTS(SELECT * FROM dbo.CART WHERE UserId = @UserId )
+		BEGIN
+			SELECT * FROM CART WHERE (CartId = @CartId) 
+		END
+		ELSE
+			THROW 51002, 'Not a Valid User Id', 1
+	END TRY
+	BEGIN CATCH
+		SELECT ERROR_MESSAGE() AS ERROR
+	END CATCH
+END;
+
+
