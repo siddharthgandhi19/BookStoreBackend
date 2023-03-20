@@ -1,25 +1,27 @@
 ﻿using BusinessLayer.Interface;
-using CommonLayer.Models.User;
+using CommonLayer.Models.Book;
+using CommonLayer.Models.Cart;
 using RepoLayer.Interface;
+using RepoLayer.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BusinessLayer.Service
 {
-    public class UserBL : IUserBL
+    public class CartBL : ICartBL
     {
-        IUserRL iUserRL;
-        public UserBL(IUserRL iUserRL)
+        ICartRL iCartRL;
+        public CartBL(ICartRL iCartRL)
         {
-            this.iUserRL = iUserRL;
+            this.iCartRL = iCartRL;
         }
 
-        public UserRegistration UserRegistration(UserRegistration userRegistration)
+        public CartInputModel AddToCart(CartInputModel cartInputModel, int UserId)
         {
             try
             {
-                return iUserRL.UserRegistration(userRegistration);
+                return iCartRL.AddToCart(cartInputModel, UserId);
             }
             catch (Exception)
             {
@@ -28,11 +30,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public string Login(UserLogin userLogin)
+        public bool DeleteCart(int CartId)
         {
             try
             {
-                return iUserRL.Login(userLogin);
+                return iCartRL.DeleteCart(CartId);
             }
             catch (Exception)
             {
@@ -41,11 +43,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public string ForgetLoginPassword(ForgetPassword forgetPassword)
+        public IEnumerable<GetCartOfUser> GetCartByCartId(int UserId, int CartId)
         {
             try
             {
-                return iUserRL.ForgetLoginPassword(forgetPassword);
+                return iCartRL.GetCartByCartId(UserId, CartId);
             }
             catch (Exception)
             {
@@ -54,11 +56,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public bool ResetPassword(ResetPassword resetPassword, string email)
+        public IEnumerable<GetCartOfUser> GetCartByUserId(CartByUserIdModel cartByUserIdModel)
         {
             try
             {
-                return iUserRL.ResetPassword(resetPassword, email);
+                return iCartRL.GetCartByUserId(cartByUserIdModel);
             }
             catch (Exception)
             {
@@ -67,11 +69,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public List<UserRegistration> GetAllUsers()
+        public bool UpdateCart(int CartId, int Quantity, int UserId)
         {
             try
             {
-                return iUserRL.GetAllUsers();
+                return iCartRL.UpdateCart(CartId, Quantity, UserId);
             }
             catch (Exception)
             {

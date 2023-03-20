@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models.MSMQ;
+﻿using CommonLayer.Models.Book;
+using CommonLayer.Models.MSMQ;
 using CommonLayer.Models.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -48,7 +49,7 @@ namespace RepoLayer.Service
                     cmd.Parameters.AddWithValue("@Mobile", userRegistration.Mobile);
                     //Open the connection and execute the query
                     sqlConnection.Open();
-                    int result = cmd.ExecuteNonQuery();
+                    int result = cmd.ExecuteNonQuery(); // FOR COMMANDS
 
                     if (result >= 1)
                     {
@@ -216,6 +217,38 @@ namespace RepoLayer.Service
                 {
                     sqlConnection.Close();
                 }
+            }
+        }
+
+        public List<UserRegistration> GetAllUsers()
+        {
+            try
+            {
+                List<UserRegistration> getAllUsers = new List<UserRegistration>();
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("spGetAllUsers", sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                while (sqlDataReader.Read())
+                {
+                    UserRegistration userRegistration = new UserRegistration();
+                    userRegistration.FullName = sqlDataReader["FullName"].ToString();
+                    userRegistration.Email = sqlDataReader["Email"].ToString();
+                    userRegistration.Password = sqlDataReader["Password"].ToString();
+                    userRegistration.Mobile = sqlDataReader["Mobile"].ToString();
+                    getAllUsers.Add(userRegistration);
+                }
+                sqlConnection.Close();
+                return getAllUsers;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

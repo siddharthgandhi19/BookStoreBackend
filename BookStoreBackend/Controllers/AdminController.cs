@@ -10,10 +10,10 @@ namespace BookStoreBackend.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        IAdminBL iAdminRL;
-        public AdminController(IAdminBL iAdminRL)
+        IAdminBL iAdminBL;
+        public AdminController(IAdminBL iAdminBL)
         {
-            this.iAdminRL = iAdminRL;
+            this.iAdminBL = iAdminBL;
 
         }
 
@@ -23,7 +23,7 @@ namespace BookStoreBackend.Controllers
         {
             try
             {
-                var result = iAdminRL.AdminLogin(adminLogin);
+                var result = iAdminBL.AdminLogin(adminLogin);
                 if (result != null)
                 {
                     return this.Ok(new { success = true, message = "Login Successfull", data = result });

@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models.Book;
+using CommonLayer.Models.User;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace RepoLayer.Interface
         public List<BookModel> GetAllBooks();
         public object GetBooksById(int bookId);
         public bool BookImageUpdate(UpdateBookModel updateBookModel);
+        
     }
 }

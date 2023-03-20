@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace BookStoreBackend.Controllers
@@ -113,6 +114,30 @@ namespace BookStoreBackend.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        [Route("getAllUser")]
+        public IActionResult GetAllUsers()
+        {
+            try
+            {
+                var result = iUserBL.GetAllUsers();
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Retrieve All Users", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Try Again!! Something Wrong" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+            
 
     }
 }
