@@ -1,0 +1,11 @@
+CREATE TABLE  ORDERTABLE(
+OrderId INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+UserId INT FOREIGN KEY (UserId) REFERENCES UserDetails(UserId),
+BookId INT FOREIGN KEY (BookId) REFERENCES BOOKS(BookId),
+AddressId INT FOREIGN KEY (AddressId) REFERENCES ADDRESS(AddressId),
+TotalPrice INT,
+Quantity INT,
+OrderDate Date);
+
+
+
