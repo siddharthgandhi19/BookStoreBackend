@@ -50,6 +50,8 @@ namespace BookStoreBackend
             services.AddTransient<IFeedbackRL, FeedbackRL>();
             services.AddTransient<IAddressBL, AddressBL>(); // Address
             services.AddTransient<IAddressRL, AddressRL>();
+            services.AddTransient<IOrderBL, OrderBL>(); // order
+            services.AddTransient<IOrderRL, OrderRL>();
             services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {

@@ -1,11 +1,11 @@
 CREATE PROCEDURE spUpdateCart(
 
 @CartId INT ,
-@Quantity INT
+@BookCount INT
 )
 AS
 BEGIN
-UPDATE CART SET Quantity=@Quantity where CartId=@CartId;
+UPDATE CART SET BookCount=@BookCount where CartId=@CartId;
 END
 
 

@@ -28,7 +28,7 @@ namespace RepoLayer.Service
 
                 cmd.Parameters.AddWithValue("@UserId ", UserId);
                 cmd.Parameters.AddWithValue("@BookId ", cartInputModel.BookId);
-                cmd.Parameters.AddWithValue("@Quantity ", cartInputModel.Quantity);
+                cmd.Parameters.AddWithValue("@BookCount ", cartInputModel.BookCount);
                 
 
 
