@@ -180,7 +180,7 @@ namespace RepoLayer.Service
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             try
             {
-                if (resetPassword.Password == resetPassword.Confirm_Passwords)
+                if (resetPassword.Password == resetPassword.ConfirmPassword)
                 {
                     SqlCommand cmd = new SqlCommand("spResetPassword", sqlConnection);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;

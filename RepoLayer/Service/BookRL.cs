@@ -194,7 +194,7 @@ namespace RepoLayer.Service
                         while (sqlDataReader.Read())
                         {
                             bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
-                            bookModel.BookName = sqlDataReader["BookId"].ToString();
+                            bookModel.BookName = sqlDataReader["BookName"].ToString();
                             bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
                             bookModel.Rating = sqlDataReader["Rating"].ToString();
                             bookModel.TotalCountRating = Convert.ToInt32(sqlDataReader["TotalCountRating"]);

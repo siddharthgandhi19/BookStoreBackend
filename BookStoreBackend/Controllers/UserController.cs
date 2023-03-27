@@ -99,7 +99,7 @@ namespace BookStoreBackend.Controllers
             {
                 var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
                 var result = iUserBL.ResetPassword(resetPassword,email);
-                if (result)
+                if (result == true )
                 {
                     return this.Ok(new { success = true, message = "Password Reset Successfully", data = result });
                 }

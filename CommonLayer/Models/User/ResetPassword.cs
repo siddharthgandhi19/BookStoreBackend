@@ -10,6 +10,6 @@ namespace CommonLayer.Models.User
         [Required]
         public string Password { get; set; }
         [Required]
-        public string Confirm_Passwords { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }
