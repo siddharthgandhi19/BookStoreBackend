@@ -187,6 +187,7 @@ namespace RepoLayer.Service
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BookId", bookId);
                     sqlConnection.Open();
+
                     BookModel bookModel = new BookModel();
                     SqlDataReader sqlDataReader = cmd.ExecuteReader();
                     if (sqlDataReader.HasRows)

@@ -97,13 +97,15 @@ namespace BookStoreBackend.Controllers
             }
         }
 
-        [HttpPost]
+        [Authorize]
+        [HttpGet]
         [Route("GetCartByUserId")]
-        public IActionResult GetCartByUserId(CartByUserIdModel cartByUserIdModel)
+        public IActionResult GetCartByUserId()
         {
             try
             {
-                var result = iCartBL.GetCartByUserId(cartByUserIdModel);
+                int UserId = Convert.ToInt32(User.Claims.FirstOrDefault(g => g.Type == "UserId").Value);
+                var result = iCartBL.GetCartByUserId(UserId);
                 if (result != null)
                 {
                     return Ok(new { success = true, message = "Get All Cart", data = result });
@@ -120,7 +122,7 @@ namespace BookStoreBackend.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("GetCartByCartId")]
         public IActionResult GetCartByCartId(int CartId)
         {

@@ -56,11 +56,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public IEnumerable<GetCartOfUser> GetCartByUserId(CartByUserIdModel cartByUserIdModel)
+        public IEnumerable<GetCartOfUser> GetCartByUserId(int UserId)
         {
             try
             {
-                return iCartRL.GetCartByUserId(cartByUserIdModel);
+                return iCartRL.GetCartByUserId(UserId);
             }
             catch (Exception)
             {

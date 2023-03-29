@@ -96,7 +96,7 @@ namespace RepoLayer.Service
 
         }
 
-        public bool UpdateCart(int CartId, int Quantity, int UserId)
+        public bool UpdateCart(int CartId, int BookCount, int UserId)
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             try
@@ -106,7 +106,7 @@ namespace RepoLayer.Service
                     SqlCommand sqlCommand = new SqlCommand("spUpdateCart", sqlConnection);
                     sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                     sqlCommand.Parameters.AddWithValue("@CartId", CartId);
-                    sqlCommand.Parameters.AddWithValue("@Quantity", Quantity);
+                    sqlCommand.Parameters.AddWithValue("@BookCount", BookCount);
 
                     sqlConnection.Open();
                     var result = sqlCommand.ExecuteNonQuery();
@@ -134,16 +134,15 @@ namespace RepoLayer.Service
             }
         }
 
-        public IEnumerable <GetCartOfUser> GetCartByUserId(CartByUserIdModel cartByUserIdModel)
+        public IEnumerable <GetCartOfUser> GetCartByUserId(int UserId)
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             try
             {
-                sqlConnection = new SqlConnection(connectionString);
                 SqlCommand cmd = new SqlCommand("spGetCartByUserId", sqlConnection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@UserId", cartByUserIdModel.UserId);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
 
                 sqlConnection.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
@@ -161,10 +160,11 @@ namespace RepoLayer.Service
 
                     getCartOfUser.UserId = Convert.ToInt32(rdr["UserId"]);
                     getCartOfUser.BookId = Convert.ToInt32(rdr["BookId"]);
-                    getCartOfUser.Quantity = Convert.ToInt32(rdr["Quantity"]);
+                    getCartOfUser.BookCount = Convert.ToInt32(rdr["BookCount"]);
+
+
                     GetCartOfUserList.Add(getCartOfUser);
                 }
-                sqlConnection.Close();
                 return GetCartOfUserList;
             }
             catch (Exception)
@@ -207,7 +207,7 @@ namespace RepoLayer.Service
                     getCartOfUser.CartId = Convert.ToInt32(rdr["CartId"]);
                     getCartOfUser.UserId = Convert.ToInt32(rdr["UserId"]);
                     getCartOfUser.BookId = Convert.ToInt32(rdr["BookId"]);
-                    getCartOfUser.Quantity = Convert.ToInt32(rdr["Quantity"]);
+                    getCartOfUser.BookCount = Convert.ToInt32(rdr["BookCount"]);
                     GetCartOfUserList.Add(getCartOfUser);
                 }
                 sqlConnection.Close();
