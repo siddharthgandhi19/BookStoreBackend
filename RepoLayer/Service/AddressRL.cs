@@ -27,6 +27,8 @@ namespace RepoLayer.Service
                 SqlCommand cmd = new SqlCommand("spAddAddress", sqlConnection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
+                cmd.Parameters.AddWithValue("@FullName", addressModel.FullName);
+                cmd.Parameters.AddWithValue("@MobileNumber", addressModel.MobileNumber);
                 cmd.Parameters.AddWithValue("@Address", addressModel.Address);
                 cmd.Parameters.AddWithValue("@City", addressModel.City);
                 cmd.Parameters.AddWithValue("@State", addressModel.State);
