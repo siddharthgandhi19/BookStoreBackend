@@ -75,7 +75,8 @@ namespace BookStoreBackend.Controllers
         {
             try
             {
-                var result = iOrderBL.GetOrders();
+                int UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = iOrderBL.GetOrders(UserId);
                 if (result != null)
                 {
                     return this.Ok(new { success = true, message = "Retrieve All Orders", data = result });

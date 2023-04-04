@@ -10,5 +10,6 @@ namespace CommonLayer.Models.Order
         public int AddressId { get; set; }
         public int BookId { get; set; }
         public int TotalQuantity { get; set; }
+
     }
 }

@@ -42,11 +42,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public List<GetOrderModel> GetOrders()
+        public List<GetOrderModel> GetOrders(int UserId)
         {
             try
             {
-                return iOrderRL.GetOrders();
+                return iOrderRL.GetOrders(UserId);
             }
             catch (Exception)
             {

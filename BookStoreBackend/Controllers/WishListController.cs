@@ -45,7 +45,7 @@ namespace BookStoreBackend.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpDelete]
         [Route("RemoveWishList")]
         public IActionResult DeleteWishList(int WishListId)
         {

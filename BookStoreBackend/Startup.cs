@@ -117,10 +117,11 @@ namespace BookStoreBackend
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(x => x
-               .AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader());
+            //Middle ware //  connect be to Fe
+            app.UseCors(x => x  
+               .AllowAnyOrigin() //connect to host
+               .AllowAnyMethod() //
+               .AllowAnyHeader()); // data communication
             app.UseAuthentication();
             app.UseAuthorization();
 

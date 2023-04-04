@@ -9,6 +9,6 @@ namespace RepoLayer.Interface
     {
         public OrderModel AddOrder(OrderModel orderModel, int UserId);
         public bool CancelOrder(int OrderId);
-        public List<GetOrderModel> GetOrders();
+        public List<GetOrderModel> GetOrders(int UserId);
     }
 }

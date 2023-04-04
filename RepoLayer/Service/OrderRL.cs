@@ -1,5 +1,6 @@
 ﻿using CommonLayer.Models.Address;
 using CommonLayer.Models.Order;
+using CommonLayer.Models.WishList;
 using Microsoft.Extensions.Configuration;
 using RepoLayer.Interface;
 using System;
@@ -89,29 +90,50 @@ namespace RepoLayer.Service
                 }
             }
         }
-        public List<GetOrderModel> GetOrders()
+        public List<GetOrderModel> GetOrders(int UserId)
         {
-            List<GetOrderModel> getAllOrderModel = new List<GetOrderModel>();
             SqlConnection sqlConnection = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand("spGetAllOrders", sqlConnection);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            sqlConnection.Open();
-            SqlDataReader sqlDataReader = cmd.ExecuteReader();
-            while (sqlDataReader.Read())
+            try
             {
-                GetOrderModel getOrderModel = new GetOrderModel();
-                getOrderModel.OrderId = Convert.ToInt32(sqlDataReader["OrderId"]);
-                getOrderModel.UserId = Convert.ToInt32(sqlDataReader["UserId"]);
-                getOrderModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
-                getOrderModel.AddressId = Convert.ToInt32(sqlDataReader["AddressId"]);
-                getOrderModel.TotalPrice = Convert.ToInt32(sqlDataReader["TotalPrice"]);
-                getOrderModel.OrderDate = sqlDataReader["OrderDate"].ToString();
+                using (sqlConnection)
+                {
+                    List<GetOrderModel> getOrderModels = new List<GetOrderModel>();
+                    SqlCommand cmd = new SqlCommand("spGetAllOrders", sqlConnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId ", UserId);
+                    sqlConnection.Open();
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                    while (sqlDataReader.Read())
+                    {
+                        getOrderModels.Add(new GetOrderModel()
+                        {
+                            OrderId = Convert.ToInt32(sqlDataReader["OrderId"]),
+                            UserId = Convert.ToInt32(sqlDataReader["UserId"]),
+                            BookId = Convert.ToInt32(sqlDataReader["BookId"]),
+                            BookName = sqlDataReader["BookName"].ToString(),
+                            AuthorName = sqlDataReader["AuthorName"].ToString(),
+                            OriginalPrice = Convert.ToInt32(sqlDataReader["OriginalPrice"]),
+                            DiscountPrice = Convert.ToInt32(sqlDataReader["DiscountPrice"]),
+                            BookImage = sqlDataReader["BookImage"].ToString(),
+                            OrderDate = sqlDataReader["OrderDate"].ToString(),
+                        });
+                    }
+                    return getOrderModels;
+                }
 
-                getAllOrderModel.Add(getOrderModel);
             }
-            sqlConnection.Close();
-            return getAllOrderModel;
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
         }
     }
 }
