@@ -157,11 +157,15 @@ namespace RepoLayer.Service
                     GetCartOfUser getCartOfUser = new GetCartOfUser();
 
                     getCartOfUser.CartId = Convert.ToInt32(rdr["CartId"]);
-
                     getCartOfUser.UserId = Convert.ToInt32(rdr["UserId"]);
                     getCartOfUser.BookId = Convert.ToInt32(rdr["BookId"]);
-                    getCartOfUser.BookCount = Convert.ToInt32(rdr["BookCount"]);
-
+                    //getCartOfUser.BookCount = Convert.ToInt32(rdr["BookCount"]);
+                    getCartOfUser.BookName = rdr["BookName"].ToString();
+                    getCartOfUser.AuthorName = rdr["AuthorName"].ToString();
+                    getCartOfUser.OriginalPrice = Convert.ToInt32(rdr["OriginalPrice"]);
+                    getCartOfUser.DiscountPrice = Convert.ToInt32(rdr["DiscountPrice"]);
+                    getCartOfUser.BookImage = rdr["BookImage"].ToString();
+                                     
 
                     GetCartOfUserList.Add(getCartOfUser);
                 }
